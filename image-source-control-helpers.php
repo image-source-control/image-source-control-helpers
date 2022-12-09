@@ -34,7 +34,12 @@ function isc_helpers_log_update_post_meta( $post_id, $key, $value ) {
 		return;
 	}
 
-	$message = "ISC changes meta value `$key` for ID $post_id from `" . print_r( $old_value, true ) . "` into `$value`";
+	$message = "ISC changes meta value `$key` for ID $post_id from `" . print_r( $old_value, true ) . "` into `$value`\n";
+
+	// if the new value is empty, log the backtrace
+	if ( $value == "" ) {
+		$message .= print_r( debug_backtrace(), true );
+	}
 
 	// uncomment to send an email
 	wp_mail( 'me@example.com', 'ISC data change: ' . $key, $message );
